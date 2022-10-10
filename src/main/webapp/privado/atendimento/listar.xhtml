@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="titulo">Cadastro de Atendimentos</ui:define>
+        <ui:define name="conteudo">
+            <h:form id="formListagem" prependId="false">
+                <p:growl/>
+
+                <div align="center" style="margin: 2% 0% 2% 0%">
+                    <p:panelGrid columns="11">
+                        <p:outputLabel value="Ordem: "/>
+                        <p:selectOneMenu value="#{controleAtendimento.dao.ordemAtual}"
+                                         converter="#{controleAtendimento.dao.converterOrdem}">
+                            <f:selectItems value="#{controleAtendimento.dao.listaOrdem}"
+                                           var="ord" itemValue="#{ord.atributo}"/>
+                            <p:ajax update="listagem"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Filtro"/>
+                        <p:inputText value="#{controleAtendimento.dao.filtro}">
+                            <p:ajax update="listagem" event="blur"/>
+                        </p:inputText>
+                        <p:commandButton value="Filtrar" update="listagem"/>
+                        <p:selectOneMenu value="#{controleAtendimento.dao.maximoObjetos}">
+                            <f:selectItem itemLabel="4" itemValue="4"/>
+                            <f:selectItem itemLabel="8" itemValue="8"/>
+                            <f:selectItem itemLabel="10" itemValue="10"/>
+                            <f:selectItem itemLabel="50" itemValue="50"/>
+                            <f:selectItem itemLabel="100" itemValue="100"/>
+                            <p:ajax update="listagem"/>
+                        </p:selectOneMenu>
+                        <p:commandButton action="#{controleAtendimento.dao.primeiro()}"
+                                         title="Primeiro" icon="pi pi-step-backward"
+                                         update="listagem"/>
+                        <p:commandButton action="#{controleAtendimento.dao.anterior()}"
+                                         title="Anterior" icon="pi pi-chevron-left"
+                                         update="listagem"/>  
+                        <p:commandButton action="#{controleAtendimento.dao.proximo()}"
+                                         title="Próximo" icon="pi pi-chevron-right"
+                                         update="listagem"/>       
+                        <p:commandButton action="#{controleAtendimento.dao.ultimo()}"
+                                         title="Último" icon="pi pi-step-forward"
+                                         update="listagem"/>
+                        <p:commandButton value="Novo" actionListener="#{controleAtendimento.novo()}"
+                                         icon="pi pi-plus"
+                                         update="formEdicao"
+                                         process="@this"
+                                         oncomplete="PF('dlg').show();"/>
+                    </p:panelGrid>
+                </div>
+
+                <p:dataTable value="#{controleAtendimento.dao.listaObjetos}" var="obj"
+                             id="listagem">
+
+                    <f:facet name="footer">
+                        <p:outputLabel value="#{controleAtendimento.dao.mensagemNavegacao}"/>
+                    </f:facet>
+
+                    <p:column headerText="ID">
+                        <p:outputLabel value="#{obj.id}"/>
+                    </p:column>
+                    <p:column headerText="Clinica">
+                        <p:outputLabel value="#{obj.medico.clinica.nome}"/>
+                    </p:column> 
+                    <p:column headerText="Cidade">
+                        <p:outputLabel value="#{obj.medico.clinica.cidade}"/>
+                    </p:column>
+                    <p:column headerText="Nome Médico">
+                        <p:outputLabel value="#{obj.medico.nome}"/>
+                    </p:column> 
+                    <p:column headerText="Especialidade">
+                        <p:outputLabel value="#{obj.medico.especialidade.nome}"/>
+                    </p:column>
+                    <p:column headerText="CRM Médico">
+                        <p:outputLabel value="CRM/RS #{obj.medico.CRM}"/>
+                    </p:column>
+                    <p:column headerText="Nome Paciente">
+                        <p:outputLabel value="#{obj.paciente.nome}"/>
+                    </p:column>
+                    <p:column headerText="CPF Paciente">
+                        <p:outputLabel value="#{obj.paciente.CPF}"/>
+                    </p:column>
+                    <p:column headerText="Valor">
+                        <p:outputLabel value="#{obj.valor}"/>
+                    </p:column>
+                    <p:column headerText="Data Consulta">
+                        <p:outputLabel value="#{obj.data}">
+                            <f:converter converterId="converterCalendar"/>
+                        </p:outputLabel>
+                    </p:column>
+
+                    <p:column headerText="Ações" style="text-align: center">
+                        <div align="center" style="column-count: 2">
+                            <div align="right">
+                                <p:commandButton
+                                    actionListener="#{controleAtendimento.alterar(obj.id)}"
+                                    icon="pi pi-pencil" title="Editar"
+                                    update="formEdicao" process="@this"
+                                    oncomplete="PF('dlg').show();"/>
+                            </div>
+                            <div align="left">
+                                <p:commandButton
+                                    actionListener="#{controleAtendimento.remover(obj.id)}"
+                                    icon="pi pi-trash" title="Excluir"
+                                    update="@form" process="@this"
+                                    onclick="if (!confirm('Confirma a exclusão?'))
+                                            return false"/>
+                            </div>                                                                
+                        </div>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+            <p:dialog header="Edição" widgetVar="dlg" resizable="false"
+                      modal="true" width="50%" height="100%">
+                <h:form id="formEdicao" prependId="false">
+                    <p:growl id="growl"/>
+                    <p:tabView id="tab">
+                        <p:tab title="Dados Principais">
+                            <div align="center">
+                                <p:panelGrid columns="2">
+                                    <p:outputLabel value="ID"/>
+                                    <p:inputText value="#{controleAtendimento.objeto.id}"
+                                                 size="5" readonly="true"/>
+
+                                    <p:outputLabel value="Data do Atendimento" for="txtData"/>
+                                    <p:calendar value="#{controleAtendimento.objeto.data}"
+                                                id="txtData"
+                                                mask="dd/MM/yyyy" navigator="true">
+                                        <f:converter converterId="converterCalendar"/>
+                                    </p:calendar>
+
+                                    <p:outputLabel value="Nome - Médico" for="selectMedico"/>
+                                    <p:selectOneMenu value="#{controleAtendimento.objeto.medico}"
+                                                     id="selectMedico"
+                                                     filter="true"
+                                                     filterMatchMode="startsWith">
+                                        <f:selectItem itemLabel="Selecione um registro"
+                                                      noSelectionOption="true"/>
+                                        <f:converter binding="#{converterMedico}"/>
+                                        <f:selectItems value="#{controleAtendimento.daoMedico.listaTodos}"
+                                                       var="est" itemLabel="#{est.nome}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Nome - Paciente" for="selectPaciente"/>
+                                    <p:selectOneMenu value="#{controleAtendimento.objeto.paciente}"
+                                                     id="selectPaciente"
+                                                     filter="true"
+                                                     filterMatchMode="startsWith">
+                                        <f:selectItem itemLabel="Selecione um registro"
+                                                      noSelectionOption="true"/>
+                                        <f:converter binding="#{converterPaciente}"/>
+                                        <f:selectItems value="#{controleAtendimento.daoPaciente.listaTodos}"
+                                                       var="est" itemLabel="#{est.nome}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Valor do atendimento" for="txtValor"/>
+                                    <p:inputNumber id="txtValor" value="#{controleAtendimento.objeto.valor}"
+                                                   size="10" maxlength="10"
+                                                   placeholder="Obrigatório"/>
+
+                                </p:panelGrid>
+                            </div>
+                        </p:tab>
+
+                        <p:tab title="Descricao do atendimento">
+                            <p:textEditor value="#{controleAtendimento.objeto.descricao}"
+                                          secure="false" height="200"/>
+                        </p:tab>
+                    </p:tabView>
+
+                    <p:panel>
+                        <div align="center">
+                            <p:commandButton value="Salvar" icon="pi pi-save"
+                                             actionListener="#{controleAtendimento.salvar()}"
+                                             update="formEdicao formListagem"
+                                             oncomplete="if(!args.validationFailed){PF('dlg').hide();}"/>
+                        </div>
+                    </p:panel>
+                </h:form>
+            </p:dialog>
+        </ui:define>        
+    </ui:composition>
+</html>
+
