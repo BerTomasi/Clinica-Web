@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="titulo">
+            G+SMH - Clinica - Registros
+        </ui:define>
+        <ui:define name="conteudo">
+            <div align="center">
+                <h:graphicImage library="imagens" name="Hospital.jpeg" 
+                                style="border-radius: 25px;
+                                margin: 3% 0% 0% 0%;
+                                max-width:600px;
+                                max-height:600px;
+                                width: auto;
+                                height: auto;"/>
+            </div>
+            <div style="font-family: sans-serif; font-size: 17px;">
+                <h1 align="center" style="color:#FF0000">
+                    Trabalho PW 1º Etapa - Rede de Clinicas
+                </h1>
+                <h2 align="center" style="color:#FF0000;  margin: 0% 0% 3% 0%">
+                    Bernardo Dirceu Tomasi
+                </h2>
+
+                <h2 align="center" style="color:#FF0000">
+                    Enunciado
+                </h2>
+                <p align="center" style="text-align: justify;
+                   margin: 0% 30% 2% 30%">
+                    O trabalho consiste em desenvolver a camada de modelo de uma aplicação, 
+                    e implementar uma aplicação web para utilização da camada de modelo 
+                    criada. Abaixo segue a especificação para cada parte do trabalho: 
+                </p>
+                <h3 align="center" style="text-align: justify;
+                    margin: 0% 30% 2% 30%">
+                    Camada de modelo: 
+                </h3>
+                <p align="center" style="text-align: justify;
+                   margin: 0% 30% 2% 35%">
+                    - Implementar no mínimo 5 classes persistentes utilizando a JPA 
+                    (Java Persistence API). A camada de modelo também deve utilizar 
+                    anotações para validação de todos os atributos das classes, e 
+                    pelo menos uma das classes deve possuir um relacionamento de
+                    muitos para um.  
+                </p>
+                <h3 align="center" style="text-align: justify;
+                    margin: 0% 30% 2% 30%">
+                    Camada WEB: 
+                </h3>
+                <p align="center" style="text-align: justify;
+                   margin: 0% 30% 2% 35%">
+                    - Desenvolver a aplicação utilizando Java Server Faces.
+                </p>
+                <p align="center" style="text-align: justify;
+                   margin: 0% 30% 2% 35%">
+                    - Utilizar templates com facelets para as telas da aplicação.
+                </p>
+                <p align="center" style="text-align: justify;
+                   margin: 0% 30% 2% 35%">
+                    - Implementar manutenções CRUD para pelos menos 3 classes, sendo 
+                    uma delas com relacionamentos muitos para um.
+                </p>
+                <p align="center" style="text-align: justify;
+                   margin: 0% 30% 2% 35%">
+                    - As manutenções devem possuir filtro, ordenação e paginação.
+                </p>
+                <p align="center" style="text-align: justify;
+                   margin: 0% 30% 2% 30%">
+                    Devem ser criados projetos no GitHub para a camada de modelo e para 
+                    a camada web, e os endereços dos projetos devem ser informados via moodle;
+                </p>
+
+                <h2 align="center" style="color:#FF0000;  margin: 3% 0% 2% 0%">
+                    Mini Mundo
+                </h2>
+
+                <p align="center" style="text-align: justify;
+                   margin: 0% 30% 2% 30%">
+                    Este trabalho se propõe a apresentar um sistema de registros
+                    de atendimentos clínicos e de cadastros de médicos e pacientes 
+                    de um conjunto de clinicas pertencentes ao hospital ficcional Grey 
+                    Sloan Memorial Hospital (G+SMH).
+                </p>
+                
+                <p align="center" style="text-align: justify;
+                   margin: 0% 30% 2% 30%">
+                    A proposta é que os pacientes possam ser atendidos em qualquer cidade
+                    que possua uma clínica do G+SMH, assim, no sistema os médicos são os únicos
+                    que são relacionados com uma clínica de maneira fixa.
+                </p>
+                
+                <p align="center" style="text-align: justify;
+                   margin: 0% 30% 2% 30%">
+                    Dessa forma, o sistema possui o cadastro dos pacientes e dos médicos
+                    (relacionando esses com suas especialidades e clinicas de 
+                    atendimento) e, por fim, o registro dos atendimentos. Esses últimos 
+                    são relacionados com os pacientes e médicos.
+                </p>
+
+
+                <h2 align="center" style="color:#FF0000;  margin: 3% 0% 2% 0%">
+                    Modelo de Classes
+                </h2>
+                <div align="center">
+                    <h:graphicImage library="imagens" name="Modelo.png" 
+                                    style="border-radius: 2px;
+                                    margin: 0% 0% 0% 0%;
+                                    max-width:1600px;
+                                    max-height:1600px;
+                                    width: auto;
+                                    height: auto;"/>
+                </div>
+
+            </div>
+            <div align="center">
+                <h:graphicImage library="imagens" name="Ifsul.png" 
+                                style="border-radius: 25px;
+                                margin: 3% 0% 0% 0%;
+                                max-width:500px;
+                                max-height:250px;
+                                width: auto;
+                                height: auto;"/>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>
+
